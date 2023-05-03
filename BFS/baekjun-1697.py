@@ -34,3 +34,41 @@ else:
     
     
 # bfs로도 풀어보자 왜 bfs인가?
+# 최단 거리 최소 횟수 bfs 의심, 노드가 다음 노드와 연결되어있다.
+# dfs는 최단거리가 아니고 깊이가 깊어져도 답이 없을 수 있음. 이 문제는 아니지만
+
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+n, k = map(int, input().split())
+
+count = [-1] * 100002
+
+def bfs(count, start):
+    
+    my_d = deque([start])
+    count[start] = 0
+    
+    
+    while my_d:
+        
+        
+        
+        now = my_d.popleft()
+        
+        if now == k:
+            return count[now]
+        
+        moves = [now+1, now-1, now*2]
+        
+        for move in moves:
+            if 0 <= move < 100001 and count[move] == -1 :      # 범위값 항상 주의하고 0 포함 여부 
+                                                               # 시간 줄인다고 100001을 k+2로 하면 n > k 인 경우 중간과정에 k+2보다 클수 있는 경우에 오류!
+                my_d.append(move)
+                count[move] = count[now] + 1
+                
+answer = bfs(count, n)
+
+print(answer)  
